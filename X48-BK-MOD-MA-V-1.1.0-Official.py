@@ -234,7 +234,7 @@ def LinePic(symbol, df, TF, FASTTYPE, MIDTYPE, SLOWTYPE, FASTEMA, MIDEMA, SLOWEM
 	return
 
 
-def trade(symbol, df, EMAfast, EMAmid, EMAslow, order, TF, FASTEMA, MIDEMA, SLOWEMA, FASTTYPE, MIDTYPE, SLOWTYPE, TP_Mode, SL_Mode, TP_Percent, SL_Percent, PNL_Mode, TP_PNL, SL_PNL):
+def trade(symbol, df, EMAfast, EMAmid, EMAslow, order, TF, FASTEMA, MIDEMA, SLOWEMA, FASTTYPE, MIDTYPE, SLOWTYPE, TP_Mode, SL_Mode, TP_Percent, SL_Percent, PNL_Mode, TP_PNL, SL_PNL, pnl_cal_text):
 	wall = bitkub.wallet()
 	res = 'result'
 	t = 'THB'
@@ -338,6 +338,25 @@ def trade(symbol, df, EMAfast, EMAmid, EMAslow, order, TF, FASTEMA, MIDEMA, SLOW
 		print(Fore.LIGHTMAGENTA_EX, Style.BRIGHT + f'{Symbol_Show} | {round(bathcoin, 2)} ฿ | TimeFrame : {TF} | MA Type : {FASTTYPE} x {MIDTYPE} x {SLOWTYPE} | MA Value : {FASTEMA} x {MIDEMA} x {SLOWEMA}' + Style.RESET_ALL)
 		print(Style.RESET_ALL)
 		print(Fore.LIGHTWHITE_EX, Style.BRIGHT, Back.GREEN + 'Status : Waiting For >>Sell<< Signal By MA Type Cross ...' + Style.RESET_ALL + '\n================================')
+		history_bk = bitkub.my_open_history(sym=BKcoin)[res]
+		history_rate = []
+		for i in history_bk:
+			if i ['side']=='buy':
+				if 'rate' in i:
+					history_rate.append(i['rate'])
+		#print(f'Last Price Entry : {history_rate[0]}')
+		history_entry = float(history_rate[0])
+		entry_cal = round(history_entry*amtcoin,2)
+		now_cal = round(last*amtcoin,2)
+		pnl_cal = round(now_cal-entry_cal,2)
+		pnl_percent_change = round(((now_cal-entry_cal)/entry_cal)*100,2)
+		if pnl_cal > 0:
+			add_plus = str('+')
+			pnl_cal_text = str(add_plus) + str(pnl_cal) + " " + t
+			pnl_percent_change_text = str(add_plus) + str(pnl_percent_change)
+		elif pnl_cal < 0:
+			pnl_cal_text = str(pnl_cal) + " " + t
+			pnl_percent_change_text = str(pnl_percent_change)
 		try:
 			if TP_Mode == 'ON':
 				history_bk = bitkub.my_open_history(sym=BKcoin)[res]
@@ -437,6 +456,7 @@ def trade(symbol, df, EMAfast, EMAmid, EMAslow, order, TF, FASTEMA, MIDEMA, SLOW
 			mess_error = f'\n📣📣ตรวจพบ Error ใน Trade Def ค่ะนายท่าน 📣📣\n\n{BKcoin}\n{Error}'
 			notify.send(mess_error)
 			pass
+		print(Fore.YELLOW, Style.BRIGHT + f'History Entry Price: {str(history_entry)} THB | History Baht Entry Pay : {str(entry_cal)} THB | Now Position Calculate : {str(now_cal)} THB | PNL by THB : {str(pnl_cal_text)} | PNL by % : {str(pnl_percent_change_text)}% | PNL TP : {TP_PNL} THB | PNL SL : {SL_PNL} THB' + Style.RESET_ALL)
 	return
 
 def indicator(symbol, TF, FASTEMA, MIDEMA, SLOWEMA, FASTTYPE, MIDTYPE, SLOWTYPE):
@@ -567,7 +587,7 @@ def main():
 			#EMAslows = round(EMAslow.iloc[-2],5)
 			#print(f'{symbol}')
 			if mode_trade == 'ON':
-				trade(symbol, df, EMAfast, EMAmid, EMAslow, order, TF, FASTEMA, MIDEMA, SLOWEMA, FASTTYPE, MIDTYPE, SLOWTYPE, TP_Mode, SL_Mode, TP_Percent, SL_Percent, PNL_Mode, TP_PNL, SL_PNL)
+				trade(symbol, df, EMAfast, EMAmid, EMAslow, order, TF, FASTEMA, MIDEMA, SLOWEMA, FASTTYPE, MIDTYPE, SLOWTYPE, TP_Mode, SL_Mode, TP_Percent, SL_Percent, PNL_Mode, TP_PNL, SL_PNL, pnl_cal_text)
 			if str(local_time[14:-9]) == '0' and not LineNotice:
 				sticker_time = [16581272, 16581275, 16581279, 16581289, 16581285]
 				stickertime = random.choice(sticker_time)
