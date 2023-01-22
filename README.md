@@ -4,6 +4,9 @@
         - เพิ่ม TP/SL by PNL [กำไร/ขาดทุน]
         - เพิ่มตั้งค่าเลือกเวลา แจ้งเตือนยอดเงินคงเหลือ
 
+## Downoad Link สำหรับไฟล์ .exe | Version 1.1.1 [Mega-Upload]
+  https://mega.nz/file/4Z5BEbjI#5Ig-quJG5PIm6iDu4TeP7KqHbZ7D8hBVRgSshnXc2cQ
+
 ## **How To - วิธีใช้งานเบื้องต้น**
 
 -   **ก่อนใช้งาน BOT ต้องเปิดประวัติธุรกรรมของเหรียญที่ต้องการให้ BOT ซื้อขายก่อน**
