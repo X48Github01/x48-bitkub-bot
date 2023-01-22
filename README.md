@@ -1,4 +1,7 @@
 # **X48-BITKUB-BOT**
+    Version 1.1.1 Build 23/01/2023
+        - เพิ่ม TP/SL by % Change
+        - เพิ่ม TP/SL by PNL [กำไร/ขาดทุน]
 
 ## **How To - วิธีใช้งานเบื้องต้น**
 
