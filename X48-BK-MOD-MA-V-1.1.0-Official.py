@@ -716,9 +716,11 @@ if __name__ == "__main__":
 			# posix is os name for linux or mac
 			if(os.name == 'posix'):
 				os.system('clear')
+				text_logo()
 			# else screen will be cleared for windows
 			else:
 				os.system('cls')
+				text_logo()
 			if looptimeframe == '4h':
 				main()
 				text_logo()
